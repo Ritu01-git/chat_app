@@ -1,0 +1,40 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: wheat;
+
+    .input {
+        display: flex;
+        flex-direction: column;
+    }
+
+    form {
+        border: 1px solid; 
+        padding-left: 4vw;
+        padding-right: 4vw;
+        padding-top: 3vh;
+        border-radius: 10px;
+        background: aliceblue;
+    }
+
+    .login {
+        display: flex;
+        justify-content: center;
+        padding: 10px;
+        Button{
+            width: 100%;
+        }
+    }
+
+    .heading {
+        display: flex;
+        justify-content: center;
+        padding: 10px;
+        font-weight: 600;
+    }
+    .file{
+        margin-top: 10px;
+    }
+}
