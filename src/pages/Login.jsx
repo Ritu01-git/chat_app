@@ -1,14 +1,36 @@
-import React from 'react'
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import MarkChatUnreadIcon from '@mui/icons-material/MarkChatUnread';
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { auth, storage, db } from '../firebase';
+import React, { useState } from 'react'
+import { useNavigate } from "react-router-dom";
+
 
 function Login() {
+    const [err, setErr] = useState(false)
+    const navigate = useNavigate()
+
+
+    // submitting the form..
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        const email = e.target[0].value;
+        const password = e.target[2].value;
+        console.log(email)
+        console.log(password)
+
+        try {
+            const res = await signInWithEmailAndPassword(auth, email, password);
+        } catch (err) {
+            setErr(true)
+        }
+    }
     return (
         <div className="container">
-            <form>
-            <MarkChatUnreadIcon className='icon' color='secondary' fontSize='large'/>
+            <form onSubmit={handleSubmit}>
+                <MarkChatUnreadIcon className='icon' color='secondary' fontSize='large' />
                 <Typography className='heading' variant="h5" gutterBottom>
                     Login..
                 </Typography>
@@ -22,9 +44,9 @@ function Login() {
                     />
                 </div>
                 <div className="login">
-                    <Button variant="contained" color="warning">Sign in</Button>
+                    <Button variant="contained" color="warning" type='submit'>Sign in</Button>
                 </div>
-                <p>Don't have an account?<a href="Login.jsx">Register</a></p>
+                <p>Don't have an account?<a href="Register">Register</a></p>
             </form>
         </div>
     )

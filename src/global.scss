@@ -20,6 +20,11 @@
     align-items: center;
     height: 100vh;
     background-color: wheat;
+    .error{
+        position: absolute;
+        top: 0;
+        width: 50%;
+    }
 
     .icon {
         margin: auto;
@@ -249,4 +254,9 @@
             }
         }
     }
+}
+.nav_container{
+    display: flex;
+    justify-content: center;
+    gap: 10%;
 }
