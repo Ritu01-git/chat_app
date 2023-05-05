@@ -10,6 +10,7 @@ import { doc, updateDoc, increment } from "firebase/firestore";
 import { getFirestore, collection, setDoc } from "firebase/firestore";
 import { auth, storage, db } from '../firebase';
 import { useNavigate } from "react-router-dom";
+import Alert from '@mui/material/Alert';
 
 
 
@@ -100,9 +101,9 @@ function Register() {
         <div className="login">
           <Button variant="contained" color="warning" type="submit">Sign up</Button>
         </div>
-        <p>Already have an account?<a href="Login.jsx">Login</a></p>
-        {err && <span>Something went wrong</span>}
+        <p>Already have an account?<a href="Login">Login</a></p>
       </form>
+      {err && <Alert className='error' severity="error">Something Went Wrong</Alert>}
     </div>
   )
 }
