@@ -48,7 +48,7 @@ function Login() {
                 <div className="login">
                     <Button variant="contained" color="warning" type='submit'>Sign in</Button>
                 </div>
-                <p>Don't have an account?<a href="Register">Register</a></p>
+                <p>Don't have an account?<Button onClick={() => navigate("/register")}>Register</Button></p>
             </form>
             {err && <Alert className='error' severity="error">Something Went Wrong</Alert>}
         </div>
