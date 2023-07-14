@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -8,15 +8,17 @@ import Grid from '@mui/material/Grid';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import Chats from './Chats';
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, setDoc, updateDoc, doc, serverTimestamp, getDoc } from "firebase/firestore";
 import { db } from '../firebase';
 import { Loader } from 'rsuite';
+import {AuthContext} from "../context/AuthContext";
 
 
 function Search() {
   const [username, setUserName] = useState("");
   const [user, setUser] = useState("");
-  const [err, setError] = useState("");
+  const [err, setError] = useState(null);
+  const {currentUser} = useContext(AuthContext)
 
   const handleSearch = async () => {
     const q = query(collection(db, "users"), where("displayName", "==", username));
@@ -32,6 +34,47 @@ function Search() {
       }
     }
 
+  const handleSelect = async() => {
+    //check whether the group exists or not
+    const combinedID = currentUser.uid > user.uid ? currentUser.uid + user.uid : user.uid + currentUser.uid;
+    try{
+      const res = await getDoc(doc(db, "chats", combinedID));
+
+      if(!res.exists()){
+        await setDoc(doc(db, "chats", combinedID), {messages: [] });
+
+        //create chats
+
+        await updateDoc(doc(db, "userChats", currentUser.uid), {
+          [combinedID + ".userInfo"] : {
+            uid : user.uid,
+            displayName: user.displayName,
+            photoURL: user.photoURL
+          },
+          [combinedID+".date"]: serverTimestamp()
+        });
+
+        await updateDoc(doc(db, "userChats", user.uid), {
+          [combinedID + ".userInfo"] : {
+            uid : currentUser.uid,
+            displayName: currentUser.displayName,
+            photoURL: currentUser.photoURL
+          },
+          [combinedID+".date"]: serverTimestamp()
+        });
+
+       
+      }
+
+    }catch (err){
+    }
+
+    setUser(null)
+    setUserName("")
+
+    //else it will show user chat
+  }
+
   
 
   const handleKey =( e )=> {
@@ -46,6 +89,7 @@ function Search() {
           id="input-with-icon-adornment"
           color="warning"
           placeholder='Find User'
+          value={username}
           startAdornment={
             <InputAdornment position="start">
               <AccountCircle />
@@ -54,7 +98,7 @@ function Search() {
         />
       </FormControl>
       {err && <span>User not found!</span>}
-      {user && <div className="chat">
+      {user && <div className="chat" onClick={handleSelect}>
         <Grid container wrap="nowrap" spacing={2} >
           <Grid item>
             <Avatar className='profileImage' sx={{ width: 56, height: 56 }}>{user.displayName[0]}</Avatar>
@@ -67,9 +111,9 @@ function Search() {
       </div>
       }
       <Chats />
+      {/* <Chats />
       <Chats />
-      <Chats />
-      <Chats />
+      <Chats /> */}
     </div>
 
   )
