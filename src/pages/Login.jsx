@@ -6,7 +6,9 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { auth, storage, db } from '../firebase';
 import React, { useState } from 'react'
 import { useNavigate } from "react-router-dom";
+import Alert from '@mui/material/Alert';
 
+// ritu2@gmail.com (abcde123kkkk)
 
 function Login() {
     const [err, setErr] = useState(false)
@@ -48,6 +50,7 @@ function Login() {
                 </div>
                 <p>Don't have an account?<a href="Register">Register</a></p>
             </form>
+            {err && <Alert className='error' severity="error">Something Went Wrong</Alert>}
         </div>
     )
 }

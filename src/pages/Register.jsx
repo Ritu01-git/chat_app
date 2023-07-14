@@ -28,7 +28,7 @@ function Register() {
     const displayName = e.target[0].value;
     const email = e.target[2].value;
     const password = e.target[4].value;
-    const file = e.target[6].files;
+    const file = e.target[6].files[0];
     console.log(displayName)
     console.log(email)
     console.log(password)

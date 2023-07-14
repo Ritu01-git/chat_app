@@ -1,14 +1,16 @@
-@mixin mobile{
+@mixin mobile {
     @media screen and (max-width: 480px) {
         @content;
     }
 }
-@mixin tablet{
+
+@mixin tablet {
     @media screen and (max-width: 7680px) {
         @content;
     }
 }
-@mixin laptop{
+
+@mixin laptop {
     @media screen and (max-width: 1200px) {
         @content;
     }
@@ -20,7 +22,8 @@
     align-items: center;
     height: 100vh;
     background-color: wheat;
-    .error{
+
+    .error {
         position: absolute;
         top: 0;
         width: 50%;
@@ -118,12 +121,47 @@
     align-items: center;
     justify-content: center;
 
+    .nav_container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .profile {
+        display: flex;
+        align-items: center;
+    }
+
+    .imageOfUser {
+        height: 50px;
+        width: 50px;
+        border-radius: 50px;
+    }
+
     .name {
         display: flex;
+        font-weight: 600;
+        margin-left: 10px;
+        font-size: 20px;
+        text-transform: capitalize;
     }
 }
 
 .search {
+    .chat{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 7px;
+        cursor: pointer;
+        border-bottom: 1px solid white;
+
+        // border-bottom: 1px solid white;
+        &:hover {
+            background-color: #F79B11;
+        }
+        
+    }
     .chats {
         display: flex;
         justify-content: center;
@@ -211,8 +249,10 @@
 
             &.owner {
                 flex-direction: row-reverse;
+
                 .messageBody {
                     align-items: flex-end;
+
                     p {
                         background: #E69B18;
                         min-height: 50px;
@@ -255,7 +295,8 @@
         }
     }
 }
-.nav_container{
+
+.nav_container {
     display: flex;
     justify-content: center;
     gap: 10%;
