@@ -13,9 +13,9 @@ function Navbar() {
       {/* <MarkChatUnreadIcon className='icon' color='secondary' fontSize='large'/> */}
       <div className="nav_container">
         <div className='profile'>
-        <img src={currentUser.photoURL} alt="" className='imageOfUser'/>
+        <img src={currentUser?.photoURL} alt="" className='imageOfUser'/>
           <div className="name">
-             {currentUser.displayName}
+             {currentUser?.displayName}
           </div>
           </div>
           <div>
