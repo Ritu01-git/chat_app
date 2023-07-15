@@ -7,12 +7,24 @@ import { auth, storage, db } from '../firebase';
 import React, { useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import Alert from '@mui/material/Alert';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 
 // ritu2@gmail.com (abcde123kkkk)
 
 function Login() {
     const [err, setErr] = useState(false)
     const navigate = useNavigate()
+
+    //loading
+    const [open, setOpen] = React.useState(false);
+    const handleClose = () => {
+        setOpen(false);
+    };
+    const handleOpen = () => {
+        setOpen(true);
+        console.log("Loading started..")
+    };
 
 
     // submitting the form..
@@ -25,6 +37,7 @@ function Login() {
 
         try {
             const res = await signInWithEmailAndPassword(auth, email, password);
+            console.log(res);
         } catch (err) {
             setErr(true)
         }
@@ -46,7 +59,14 @@ function Login() {
                     />
                 </div>
                 <div className="login">
-                    <Button variant="contained" color="warning" type='submit'>Sign in</Button>
+                    <Button variant="contained" color="warning" type='submit' onClick={handleOpen}>Sign in</Button>
+                    <Backdrop
+                        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                        open={open}
+                        onClick={handleClose}
+                    >
+                        <CircularProgress color="inherit" />
+                    </Backdrop>
                 </div>
                 <p>Don't have an account?<Button onClick={() => navigate("/register")}>Register</Button></p>
             </form>
