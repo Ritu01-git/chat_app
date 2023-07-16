@@ -12,12 +12,14 @@ import { collection, query, where, getDocs, setDoc, updateDoc, doc, serverTimest
 import { db } from '../firebase';
 import { Loader } from 'rsuite';
 import {AuthContext} from "../context/AuthContext";
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 
 
 function Search() {
   const [username, setUserName] = useState("");
   const [user, setUser] = useState("");
-  const [err, setError] = useState(null);
+  const [err, setError] = useState(false);
   const {currentUser} = useContext(AuthContext)
 
   const handleSearch = async () => {
@@ -25,9 +27,15 @@ function Search() {
       try{
         console.log('search started')
         const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-          setUser(doc.data())
-        });
+        if(!querySnapshot.empty){
+          querySnapshot.forEach((doc) => {
+            setUser(doc.data())
+            setError(false);
+          });
+        }else{
+          console.log("not found");
+          setError(true);
+        }
       }catch(err){
         console.log("in catch block");
         setError(err);
@@ -97,7 +105,9 @@ function Search() {
           }
         />
       </FormControl>
-      {err && <span>User not found!</span>}
+      {err && <Stack sx={{ width: '100%' }} spacing={2}>
+      <Alert severity="warning">User Not Found!</Alert>
+    </Stack>}
       {user && <div className="chat" onClick={handleSelect}>
         <Grid container wrap="nowrap" spacing={2} >
           <Grid item>
